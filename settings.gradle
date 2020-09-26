@@ -1,0 +1,6 @@
+rootProject.name = "graphql-introspection"
+
+include ":graphql-introspection-core"
+include ":graphql-introspection-example"
+
+enableFeaturePreview("GRADLE_METADATA")

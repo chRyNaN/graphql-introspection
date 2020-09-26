@@ -1,0 +1,68 @@
+import com.chrynan.graphql.introspection.buildSrc.LibraryConstants
+
+apply plugin: "kotlin-multiplatform"
+apply plugin: "kotlinx-serialization"
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+kotlin {
+    targets {
+        jvm()
+        js()
+        ios()
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
+
+                // JSON - Kotlinx Serialization
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-common"
+                implementation "org.jetbrains.kotlin:kotlin-test-annotations-common"
+            }
+        }
+        jvmTest {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-junit"
+            }
+        }
+        jsTest {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-js"
+            }
+        }
+    }
+}
+
+configurations {
+    compileClasspath
+}
+
+publishing {
+    publications {
+        kotlinMultiplatform {
+            artifactId = "graphql-introspection-core"
+        }
+        jvm {
+            artifactId = "graphql-introspection-core-jvm"
+        }
+        js {
+            artifactId = "graphql-introspection-core-js"
+        }
+        iosArm64 {
+            artifactId = "graphql-introspection-core-ios-arm64"
+        }
+        iosX64 {
+            artifactId = "graphql-introspection-core-ios-x64"
+        }
+        metadata {
+            artifactId = "graphql-introspection-core-metadata"
+        }
+    }
+}
