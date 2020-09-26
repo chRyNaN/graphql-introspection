@@ -24,7 +24,8 @@ sealed class Type(@SerialName(value = "kind") val kind: Kind) {
     data class Object(
         override val name: String,
         override val description: String? = null,
-        @SerialName(value = "fields") val fields: List<Field>? = null
+        @SerialName(value = "fields") val fields: List<Field>? = null,
+        @SerialName(value = "interfaces") val interfaces: List<TypeRef> = emptyList()
     ) : Type(Kind.OBJECT)
 
     @Serializable
