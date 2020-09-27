@@ -8,6 +8,9 @@ import kotlinx.serialization.Serializable
 enum class DirectiveLocation(val typeName: String) {
 
     SCHEMA(typeName = "SCHEMA"),
+    QUERY(typeName = "QUERY"),
+    MUTATION(typeName = "MUTATION"),
+    SUBSCRIPTION(typeName = "SUBSCRIPTION"),
     SCALAR(typeName = "SCALAR"),
     OBJECT(typeName = "OBJECT"),
     FIELD_DEFINITION(typeName = "FIELD_DEFINITION"),
@@ -19,6 +22,7 @@ enum class DirectiveLocation(val typeName: String) {
     INPUT_OBJECT(typeName = "INPUT_OBJECT"),
     INPUT_FIELD_DEFINITION(typeName = "INPUT_FIELD_DEFINITION"),
     FIELD(typeName = "FIELD"),
+    FRAGMENT_DEFINITION(typeName = "FRAGMENT_DEFINITION"),
     FRAGMENT_SPREAD(typeName = "FRAGMENT"),
     INLINE_FRAGMENT(typeName = "INLINE_FRAGMENT"),
     VARIABLE_DEFINITION(typeName = "VARIABLE_DEFINITION");
