@@ -20,7 +20,10 @@ data class IntrospectionSchema(
 
     companion object {
 
-        fun fromJsonString(input: String, json: Json = Json): IntrospectionSchema =
+        fun fromJsonString(
+            input: String,
+            json: Json = Json { classDiscriminator = Type.TYPE_FIELD_NAME }
+        ): IntrospectionSchema =
             json.decodeFromString(serializer(), input)
     }
 
