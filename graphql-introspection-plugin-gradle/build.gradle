@@ -1,0 +1,50 @@
+import com.chrynan.graphql.introspection.buildSrc.LibraryConstants
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+apply plugin: "java-gradle-plugin"
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    // JSON - Kotlinx Serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
+
+    compileOnly(gradleApi())
+
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+
+    implementation project(":graphql-introspection-core")
+    implementation project(":graphql-introspection-input-jvm")
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = LibraryConstants.group
+            artifactId = "graphql-introspection-plugin-gradle"
+            version = LibraryConstants.versionName
+
+            from components.java
+        }
+    }
+}
+
+gradlePlugin {
+    plugins {
+        jsonStringInputPlugin {
+            id = "com.chrynan.graphql.introspection.sdl"
+            implementationClass = "com.chrynan.graphql.introspection.plugin.gradle.SchemaSdlToJsonPlugin"
+        }
+    }
+}
