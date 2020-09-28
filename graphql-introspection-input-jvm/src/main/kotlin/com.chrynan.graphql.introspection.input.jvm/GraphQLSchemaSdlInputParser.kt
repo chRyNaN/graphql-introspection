@@ -3,6 +3,7 @@
 package com.chrynan.graphql.introspection.input.jvm
 
 import com.chrynan.graphql.introspection.core.IntrospectionQuery
+import com.chrynan.graphql.introspection.core.IntrospectionSchema
 import com.chrynan.graphql.introspection.core.IntrospectionSchemaData
 import graphql.GraphQL
 import graphql.schema.idl.RuntimeWiring
@@ -11,9 +12,9 @@ import graphql.schema.idl.SchemaParser
 import graphql.schema.idl.TypeDefinitionRegistry
 import java.io.File
 
-class GraphQLSdlInputParser {
+class GraphQLSchemaSdlInputParser {
 
-    operator fun invoke(sdlFiles: List<File>): IntrospectionSchemaData {
+    operator fun invoke(sdlFiles: List<File>): IntrospectionSchema {
         val mockRuntimeWiring = RuntimeWiring.newRuntimeWiring()
             .wiringFactory(MockedWiringFactory())
             .build()
@@ -30,7 +31,7 @@ class GraphQLSdlInputParser {
         val data = executionResult.toSpecification()["data"] ?: throw InvalidGraphQLSchemaFormat()
 
         return try {
-            IntrospectionSchemaData.fromJsonString(data.toString())
+            IntrospectionSchemaData.fromJsonString(data.toString()).introspectionSchema
         } catch (e: Exception) {
             throw InvalidGraphQLSchemaFormat(
                 message = "Encountered exception while parsing the IntrospectionSchemaData class.",
