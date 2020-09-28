@@ -27,11 +27,11 @@ class SchemaSdlToJsonPlugin : Plugin<Project> {
 
             task.doFirst {
                 val graphQLDirectoryPath =
-                    extension.graphQLDirectory
-                        ?: throw InvalidGraphQLInputDirectoryException(extension.graphQLDirectory)
+                    extension.schemaSdlInputDirectory
+                        ?: throw InvalidGraphQLInputDirectoryException(extension.schemaSdlInputDirectory)
                 val schemaDirectoryPath =
-                    extension.schemaOutputDirectory
-                        ?: throw InvalidSchemaOutputDirectoryException(extension.schemaOutputDirectory)
+                    extension.schemaJsonOutputDirectory
+                        ?: throw InvalidSchemaOutputDirectoryException(extension.schemaJsonOutputDirectory)
 
                 val graphQLDirectory = File(graphQLDirectoryPath)
                 val schemaDirectory = File(schemaDirectoryPath)
