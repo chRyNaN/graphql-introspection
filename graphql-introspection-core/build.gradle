@@ -10,7 +10,6 @@ kotlin {
     targets {
         jvm()
         js()
-        ios()
     }
     sourceSets {
         all {
@@ -59,12 +58,6 @@ publishing {
         }
         js {
             artifactId = "graphql-introspection-core-js"
-        }
-        iosArm64 {
-            artifactId = "graphql-introspection-core-ios-arm64"
-        }
-        iosX64 {
-            artifactId = "graphql-introspection-core-ios-x64"
         }
         metadata {
             artifactId = "graphql-introspection-core-metadata"

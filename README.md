@@ -59,16 +59,6 @@ implementation "com.chrynan.graphql.introspection:graphql-introspection-core-jvm
 implementation "com.chrynan.graphql.introspection:graphql-introspection-core-js:$VERSION"
 ```
 
-#### Kotlin iOS ARM64:
-```groovy
-implementation "com.chrynan.graphql.introspection:graphql-introspection-core-ios-arm64:$VERSION"
-```
-
-#### Kotlin iOS x64:
-```groovy
-implementation "com.chrynan.graphql.introspection:graphql-introspection-core-ios-x64:$VERSION"
-```
-
 ## License
 ```
 Copyright 2020 chRyNaN

@@ -10,7 +10,6 @@ kotlin {
     targets {
         jvm()
         js()
-        ios()
     }
     sourceSets {
         commonMain {
@@ -37,12 +36,6 @@ publishing {
         }
         js {
             artifactId = "graphql-introspection-processor-js"
-        }
-        iosArm64 {
-            artifactId = "graphql-introspection-processor-ios-arm64"
-        }
-        iosX64 {
-            artifactId = "graphql-introspection-processor-ios-x64"
         }
         metadata {
             artifactId = "graphql-introspection-processor-metadata"
