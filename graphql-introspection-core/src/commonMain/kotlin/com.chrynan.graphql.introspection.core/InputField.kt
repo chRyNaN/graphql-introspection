@@ -6,7 +6,7 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = InputFieldSerializer::class)
 data class InputField(
     @SerialName(value = "name") val name: String,
     @SerialName(value = "description") val description: String? = null,
