@@ -39,14 +39,13 @@ data class IntrospectionSchema(
                 isLenient = true
                 encodeDefaults = true
             }
-        ): IntrospectionSchema =
-            json.decodeFromString(serializer(), input)
+        ): IntrospectionSchema = json.decodeFromString(serializer(), input)
     }
 
     /**
      * Converts this [IntrospectionSchema] to a JSON formatted [String] using the provided [json] object.
      *
-     * @param [json] The [Json] class used to deserialize the provided [input]. This defaults to an appropriately
+     * @param [json] The [Json] class used to deserialize this class instance. This defaults to an appropriately
      * defined [Json] instance needed for the parsing. If you override this value, be sure to set the
      * classDiscriminator value to [Type.TYPE_FIELD_NAME] and it's recommended to have isLenient set to true. Also,
      * it's recommended to have encodeDefaults set to true.
