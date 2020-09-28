@@ -15,12 +15,12 @@ schema.types.forEach { ... }
 ```
 
 ### Convenient GraphQL Introspection Query
-This can be used to query a GraphQL API and obtain the result whose `data` field can be used as an `IntrospectionSchema` object.
+This can be used to query a GraphQL API and obtain the result whose `data` field can be used as an `IntrospectionSchemaData` object.
 ```kotlin
 val query = IntrospectionQuery.getIntrospectionQueryString()
 ```
 
-### Processoring Schema Types
+### Processing Schema Types
 **Note:** This requires the `graphql-introspection-processor` dependency.
 ```kotlin
 class MyTypeProcessor : IntrospectionSchemaTypeProcessor<Unit> {
@@ -74,7 +74,7 @@ commonMain {
 ```
 
 #### graphql-introspection-input-jvm
-Note that this dependency is only available for the JVM target. This is because it uses the JVM File classes.
+**Note:** That this dependency is only available for the JVM target. This is because it uses the JVM File classes.
 ```groovy
 jvmMain {
     dependencies {

@@ -8,6 +8,9 @@ version LibraryConstants.versionName
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
+    // JSON - Kotlinx Serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
+
     implementation "com.graphql-java:graphql-java:15.0"
 
     implementation project(":graphql-introspection-core")
