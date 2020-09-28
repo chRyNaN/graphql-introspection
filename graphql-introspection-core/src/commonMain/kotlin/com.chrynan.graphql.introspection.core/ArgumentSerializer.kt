@@ -27,7 +27,12 @@ object ArgumentSerializer : KSerializer<Argument> {
             encodeBooleanElement(descriptor, 2, value.isDeprecated)
             encodeNullableSerializableElement(descriptor, 3, String.serializer(), value.deprecationReason)
             encodeSerializableElement(descriptor, 4, TypeRef.serializer(), value.type)
-            encodeSerializableElement(descriptor, 5, getDefaultValueSerializer(value.defaultValue), value.defaultValue)
+            encodeSerializableElement(
+                descriptor,
+                5,
+                getDefaultValueSerializer(value.defaultValue, value.type),
+                value.defaultValue
+            )
         }
     }
 
