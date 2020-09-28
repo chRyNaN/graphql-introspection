@@ -40,6 +40,21 @@ val sdlSchema = IntrospectionSchema.fromSdlFiles(sdlFilesList)
 val jsonSchema = IntrospectionSchema.fromJsonFile(jsonFile)
 ```
 
+### Using the Gradle Plugin
+The `graphql-introspection-plugin-gradle` module provides a Gradle Plugin for converting a list of GraphQL SDL files into a `schema.json` file.
+
+To use the Gradle Plugin, setup the extension:
+```groovy
+apply plugin: "com.chrynan.graphql.introspection.sdl"
+
+graphqlSchemaSdlToJson {
+    schemaSdlInputDirectory = "${project.rootDir.path}/path/to/sdl/files"
+    schemaJsonOutputDirectory = "${project.projectDir}/src/commonMain/graphql"
+}
+```
+
+Then run the Gradle Task: `./gradlew convertGraphqlSchemaSdlToJson`
+
 ## Building
 The library is provided through [Bintray](https://bintray.com/chrynan/chrynan). Checkout the [releases page](https://github.com/chRyNaN/graphql-introspection/releases) to get the latest version.
 
@@ -81,6 +96,25 @@ jvmMain {
         implementation "com.chrynan.graphql.introspection:graphql-introspection-input-jvm:$VERSION"
     }
 }
+```
+
+### Gradle Plugin
+Add the plugin to the buildscript classpath:
+```groovy
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://dl.bintray.com/chrynan/chrynan")
+        }
+    }
+    dependencies {
+        classpath "com.chrynan.graphql.introspection:graphql-introspection-plugin-gradle:0.1.0"
+    }
+}
+```
+Apply the plugin:
+```groovy
+apply plugin: "com.chrynan.graphql.introspection.sdl"
 ```
 
 ## License
