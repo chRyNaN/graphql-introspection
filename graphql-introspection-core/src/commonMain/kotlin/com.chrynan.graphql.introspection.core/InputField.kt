@@ -13,5 +13,5 @@ data class InputField(
     @SerialName(value = "isDeprecated") val isDeprecated: Boolean = false,
     @SerialName(value = "deprecationReason") val deprecationReason: String? = null,
     @SerialName(value = "type") val type: TypeRef,
-    @SerialName(value = "defaultValue") @Contextual val defaultValue: Any? = null
+    @SerialName(value = "defaultValue") @Contextual val defaultValue: DefaultValue? = null
 )
