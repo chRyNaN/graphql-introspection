@@ -20,6 +20,26 @@ This can be used to query a GraphQL API and obtain the result whose `data` field
 val query = IntrospectionQuery.getIntrospectionQueryString()
 ```
 
+### Processoring Schema Types
+**Note:** This requires the `graphql-introspection-processor` dependency.
+```kotlin
+class MyTypeProcessor : IntrospectionSchemaTypeProcessor<Unit> {
+    
+    fun process(type: Type, typeMap: Map<String, Type>): Unit { ... }
+}
+
+val processor = BaseIntrospectionSchemaProcessor(listOf(MyTypeProcessor()))
+
+processor.process(schema)
+```
+
+### Obtaining an `IntrospectionSchema` object from Files
+**Note:** This requires the `graphql-introspection-input-jvm` dependency and only works for the JVM.
+```kotlin
+val sdlSchema = IntrospectionSchema.fromSdlFiles(sdlFilesList)
+val jsonSchema = IntrospectionSchema.fromJsonFile(jsonFile)
+```
+
 ## Building
 The library is provided through [Bintray](https://bintray.com/chrynan/chrynan). Checkout the [releases page](https://github.com/chRyNaN/graphql-introspection/releases) to get the latest version.
 
@@ -33,7 +53,9 @@ repositories {
 ```
 
 ### Dependencies
-The library uses the new Kotlin 1.4.0 setup, so you can simply specify the common dependency for the `commonMain` source set:
+The library uses the new Kotlin 1.4.0 setup, so you can simply specify the common dependency for the `commonMain` source set.
+
+#### graphql-introspection-core
 ```groovy
 commonMain {
     dependencies {
@@ -42,21 +64,23 @@ commonMain {
 }
 ```
 
-If you need dependencies for specific targets, they are listed below:
-
-#### Kotlin Common:
+#### graphql-introspection-processor
 ```groovy
-implementation "com.chrynan.graphql.introspection:graphql-introspection-core:$VERSION"
+commonMain {
+    dependencies {
+        implementation "com.chrynan.graphql.introspection:graphql-introspection-processor:$VERSION"
+    }
+}
 ```
 
-#### Kotlin JVM:
+#### graphql-introspection-input-jvm
+Note that this dependency is only available for the JVM target. This is because it uses the JVM File classes.
 ```groovy
-implementation "com.chrynan.graphql.introspection:graphql-introspection-core-jvm:$VERSION"
-```
-
-#### Kotlin JS:
-```groovy
-implementation "com.chrynan.graphql.introspection:graphql-introspection-core-js:$VERSION"
+jvmMain {
+    dependencies {
+        implementation "com.chrynan.graphql.introspection:graphql-introspection-input-jvm:$VERSION"
+    }
+}
 ```
 
 ## License
