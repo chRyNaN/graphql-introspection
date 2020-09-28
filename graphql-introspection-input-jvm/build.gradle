@@ -1,0 +1,34 @@
+import com.chrynan.graphql.introspection.buildSrc.LibraryConstants
+
+apply plugin: "org.jetbrains.kotlin.jvm"
+
+group LibraryConstants.group
+version LibraryConstants.versionName
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    implementation "com.graphql-java:graphql-java:15.0"
+
+    implementation project(":graphql-introspection-core")
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = LibraryConstants.group
+            artifactId = "graphql-introspection-input-jvm"
+            version = LibraryConstants.versionName
+
+            from components.java
+        }
+    }
+}
