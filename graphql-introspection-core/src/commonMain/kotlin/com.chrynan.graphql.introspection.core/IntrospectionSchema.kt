@@ -29,13 +29,15 @@ data class IntrospectionSchema(
          * @param [input] The properly formatted JSON [String] of the [IntrospectionSchema] object.
          * @param [json] The [Json] class used to deserialize the provided [input]. This defaults to an appropriately
          * defined [Json] instance needed for the parsing. If you override this value, be sure to set the
-         * classDiscriminator value to [Type.TYPE_FIELD_NAME] and it's recommended to have isLenient set to true.
+         * classDiscriminator value to [Type.TYPE_FIELD_NAME] and it's recommended to have isLenient set to true. Also,
+         * it's recommended to have encodeDefaults set to true.
          */
         fun fromJsonString(
             input: String,
             json: Json = Json {
                 classDiscriminator = Type.TYPE_FIELD_NAME
                 isLenient = true
+                encodeDefaults = true
             }
         ): IntrospectionSchema =
             json.decodeFromString(serializer(), input)
@@ -46,12 +48,14 @@ data class IntrospectionSchema(
      *
      * @param [json] The [Json] class used to deserialize the provided [input]. This defaults to an appropriately
      * defined [Json] instance needed for the parsing. If you override this value, be sure to set the
-     * classDiscriminator value to [Type.TYPE_FIELD_NAME] and it's recommended to have isLenient set to true.
+     * classDiscriminator value to [Type.TYPE_FIELD_NAME] and it's recommended to have isLenient set to true. Also,
+     * it's recommended to have encodeDefaults set to true.
      */
     fun toJsonString(
         json: Json = Json {
             classDiscriminator = Type.TYPE_FIELD_NAME
             isLenient = true
+            encodeDefaults = true
         }
     ): String = json.encodeToString(serializer(), this)
 }

@@ -9,7 +9,7 @@ class IntrospectionSchemaTest {
     """.trimIndent()
 
     @Test
-    fun parsingShouldWork() {
+    fun parsingShouldNotThrowException() {
         IntrospectionSchema.fromJsonString(SCHEMA_JSON_STRING)
     }
 }
