@@ -28,13 +28,22 @@ class GraphQLSchemaSdlInputParser {
 
         val jsonElement = executionResult.toSpecification().toJson()
 
+        var jsonString = jsonElement.toString()
+
+        jsonString = if (jsonString.startsWith("/uFEFF")) jsonString.substring(1) else jsonString
+
+        println("Full: $jsonString\n")
+
+        println("\n\n Substring: start = 2223: ${jsonString.substring(2223)}")
+
         return try {
-            SuccessfulIntrospectionSchemaResponse.fromJsonString(jsonElement.toString()).data.introspectionSchema
+            SuccessfulIntrospectionSchemaResponse.fromJsonString(jsonString).data.introspectionSchema
         } catch (e: Exception) {
-            throw InvalidGraphQLSchemaFormat(
-                message = "Encountered exception while parsing the IntrospectionSchemaData class.",
-                exception = e
-            )
+            throw e
+            //throw InvalidGraphQLSchemaFormat(
+             //   message = "Encountered exception while parsing the IntrospectionSchemaData class.",
+            //    exception = e
+            //)
         }
     }
 }

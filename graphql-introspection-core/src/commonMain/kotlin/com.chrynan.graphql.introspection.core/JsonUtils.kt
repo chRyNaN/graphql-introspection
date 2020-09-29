@@ -1,5 +1,8 @@
 package com.chrynan.graphql.introspection.core
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.json.*
 
 fun Map<*, *>.toJson(): JsonObject =
@@ -95,4 +98,12 @@ internal fun JsonArrayBuilder.addJsonArray(items: Collection<*>) {
             }
         }
     }
+}
+
+fun <T> JsonElement.decodeNullableList(json: Json, listItemSerializer: KSerializer<T>): List<T> {
+    if (this is JsonNull) return emptyList()
+
+    val list = json.decodeFromJsonElement(ListSerializer(listItemSerializer).nullable, jsonArray)
+
+    return list ?: emptyList()
 }

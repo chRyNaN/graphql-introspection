@@ -34,20 +34,100 @@ object TypeJsonSerializer : KSerializer<Type> {
     override fun deserialize(decoder: Decoder): Type {
         val jsonDecoder =
             decoder as? JsonDecoder ?: throw SerializationException("Expected Json Decoder for ${decoder}.")
-        val jsonObject = jsonDecoder.decodeJsonElement() as? JsonObject
-            ?: throw SerializationException("Expected Json Object for ${jsonDecoder.decodeJsonElement()}.")
+        val json = jsonDecoder.json
+        val jsonObject = jsonDecoder.decodeJsonElement().jsonObject
 
-        val kindTypeName = jsonObject["kind"]?.jsonPrimitive?.content
-            ?: throw SerializationException("Was expecting kind field in Json.")
+        val kindTypeName = jsonObject.getValue("kind").jsonPrimitive.content
 
+        // Note we deliberately handle deserializing each kind in a custom manner because there seems to be an issue
+        // when delegating to each types default serializer. This might have something to do with the "kind" property
+        // but it's very difficult to find any information about the issue.
         return when (val kind = Kind.fromTypeName(kindTypeName)) {
-            Kind.SCALAR -> decoder.decodeSerializableValue(Type.Scalar.serializer())
-            Kind.OBJECT -> decoder.decodeSerializableValue(Type.Object.serializer())
-            Kind.INPUT_OBJECT -> decoder.decodeSerializableValue(Type.InputObject.serializer())
-            Kind.INTERFACE -> decoder.decodeSerializableValue(Type.Interface.serializer())
-            Kind.ENUM -> decoder.decodeSerializableValue(Type.Enum.serializer())
-            Kind.UNION -> decoder.decodeSerializableValue(Type.Union.serializer())
+            Kind.SCALAR -> getScalar(jsonObject)
+            Kind.OBJECT -> getObject(json, jsonObject)
+            Kind.INPUT_OBJECT -> getInputObject(json, jsonObject)
+            Kind.INTERFACE -> getInterface(json, jsonObject)
+            Kind.ENUM -> getEnum(json, jsonObject)
+            Kind.UNION -> getUnion(json, jsonObject)
             else -> throw SerializationException("Unexpected Type Kind was encountered. kind = $kind")
         }
+    }
+
+    private fun getScalar(jsonObject: JsonObject): Type.Scalar {
+        val name = jsonObject.getValue("name").jsonPrimitive.content
+        val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
+
+        return Type.Scalar(
+            name = name,
+            description = description
+        )
+    }
+
+    private fun getObject(json: Json, jsonObject: JsonObject): Type.Object {
+        val name = jsonObject.getValue("name").jsonPrimitive.content
+        val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
+        val interfaces = jsonObject.getValue("interfaces").decodeNullableList(json, TypeRef.serializer())
+        val fields = jsonObject.getValue("fields").decodeNullableList(json, Field.serializer())
+
+        return Type.Object(
+            name = name,
+            description = description,
+            interfaces = interfaces,
+            fields = fields
+        )
+    }
+
+    private fun getInputObject(json: Json, jsonObject: JsonObject): Type.InputObject {
+        val name = jsonObject.getValue("name").jsonPrimitive.content
+        val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
+        val inputFields = jsonObject.getValue("inputFields").decodeNullableList(json, InputField.serializer())
+
+        return Type.InputObject(
+            name = name,
+            description = description,
+            inputFields = inputFields
+        )
+    }
+
+    private fun getInterface(json: Json, jsonObject: JsonObject): Type.Interface {
+        val name = jsonObject.getValue("name").jsonPrimitive.content
+        val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
+        val possibleTypes = jsonObject.getValue("possibleTypes").decodeNullableList(json, TypeRef.serializer())
+        val interfaces = jsonObject.getValue("interfaces").decodeNullableList(json, TypeRef.serializer())
+        val fields = jsonObject.getValue("fields").decodeNullableList(json, Field.serializer())
+
+        return Type.Interface(
+            name = name,
+            description = description,
+            possibleTypes = possibleTypes,
+            interfaces = interfaces,
+            fields = fields
+        )
+    }
+
+    private fun getEnum(json: Json, jsonObject: JsonObject): Type.Enum {
+        val name = jsonObject.getValue("name").jsonPrimitive.content
+        val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
+        val enumValues = jsonObject.getValue("enumValues").decodeNullableList(json, Type.Enum.Value.serializer())
+
+        return Type.Enum(
+            name = name,
+            description = description,
+            enumValues = enumValues
+        )
+    }
+
+    private fun getUnion(json: Json, jsonObject: JsonObject): Type.Union {
+        val name = jsonObject.getValue("name").jsonPrimitive.content
+        val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
+        val possibleTypes = jsonObject.getValue("possibleTypes").decodeNullableList(json, TypeRef.serializer())
+        val fields = jsonObject.getValue("fields").decodeNullableList(json, Field.serializer())
+
+        return Type.Union(
+            name = name,
+            description = description,
+            possibleTypes = possibleTypes,
+            fields = fields
+        )
     }
 }

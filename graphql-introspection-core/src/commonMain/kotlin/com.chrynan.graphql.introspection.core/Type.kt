@@ -22,7 +22,6 @@ sealed class Type {
     @SerialName(value = "description")
     abstract val description: String?
 
-
     @Serializable
     data class Scalar(
         override val name: String,
@@ -37,7 +36,7 @@ sealed class Type {
         override val name: String,
         override val description: String? = null,
         @SerialName(value = "interfaces") val interfaces: List<TypeRef> = emptyList(),
-        @SerialName(value = "fields") val fields: List<Field>? = null
+        @SerialName(value = "fields") val fields: List<Field> = emptyList()
     ) : Type() {
 
         override val kind: Kind = Kind.OBJECT
@@ -49,7 +48,7 @@ sealed class Type {
         override val description: String? = null,
         @SerialName(value = "possibleTypes") val possibleTypes: List<TypeRef>? = null,
         @SerialName(value = "interfaces") val interfaces: List<TypeRef> = emptyList(),
-        @SerialName(value = "fields") val fields: List<Field>? = null
+        @SerialName(value = "fields") val fields: List<Field> = emptyList()
     ) : Type() {
 
         override val kind: Kind = Kind.INTERFACE
@@ -59,8 +58,8 @@ sealed class Type {
     data class Union(
         override val name: String,
         override val description: String? = null,
-        @SerialName(value = "interfaces") val possibleTypes: List<TypeRef>? = null,
-        @SerialName(value = "fields") val fields: List<Field>? = null
+        @SerialName(value = "possibleTypes") val possibleTypes: List<TypeRef>? = null,
+        @SerialName(value = "fields") val fields: List<Field> = emptyList()
     ) : Type() {
 
         override val kind: Kind = Kind.UNION

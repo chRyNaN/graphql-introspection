@@ -37,6 +37,7 @@ internal fun getSerializerFor(typeRef: TypeRef): KSerializer<*> =
         typeRef.kind == Kind.SCALAR && typeRef.name?.toLowerCase() == "string" -> String.serializer().nullable
         typeRef.kind == Kind.SCALAR && typeRef.name?.toLowerCase() == "float" -> Float.serializer().nullable
         typeRef.kind == Kind.SCALAR && typeRef.name?.toLowerCase() == "id" -> String.serializer().nullable
+        typeRef.kind == Kind.SCALAR -> String.serializer().nullable
         typeRef.kind == Kind.ENUM -> String.serializer().nullable
         typeRef.kind == Kind.LIST && typeRef.ofType != null -> ListSerializer(getSerializerFor(typeRef.ofType)).nullable
         typeRef.kind == Kind.NON_NULL && typeRef.ofType != null -> getSerializerFor(typeRef.ofType)
