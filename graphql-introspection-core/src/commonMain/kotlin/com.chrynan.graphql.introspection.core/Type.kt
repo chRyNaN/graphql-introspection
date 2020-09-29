@@ -22,6 +22,22 @@ sealed class Type {
     @SerialName(value = "description")
     abstract val description: String?
 
+    @SerialName(value = "possibleTypes")
+    abstract val possibleTypes: List<TypeRef>?
+
+    @SerialName(value = "enumValues")
+    abstract val enumValues: List<Enum.Value>?
+
+    @SerialName(value = "inputFields")
+    abstract val inputFields: List<InputField>?
+
+    @SerialName(value = "interfaces")
+    abstract val interfaces: List<TypeRef>?
+
+    @SerialName(value = "fields")
+    abstract val fields: List<Field>?
+
+
     @Serializable
     @SerialName(value = "SCALAR") // Refers to the kind property
     data class Scalar(
@@ -30,6 +46,16 @@ sealed class Type {
     ) : Type() {
 
         override val kind: Kind = Kind.SCALAR
+
+        override val possibleTypes: List<TypeRef>? = null
+
+        override val enumValues: List<Enum.Value>? = null
+
+        override val inputFields: List<InputField>? = null
+
+        override val interfaces: List<TypeRef>? = null
+
+        override val fields: List<Field>? = null
     }
 
     @Serializable
@@ -37,11 +63,17 @@ sealed class Type {
     data class Object(
         override val name: String,
         override val description: String? = null,
-        @SerialName(value = "fields") val fields: List<Field>? = null,
-        @SerialName(value = "interfaces") val interfaces: List<TypeRef> = emptyList()
+        override val interfaces: List<TypeRef> = emptyList(),
+        override val fields: List<Field>? = null
     ) : Type() {
 
         override val kind: Kind = Kind.OBJECT
+
+        override val possibleTypes: List<TypeRef>? = null
+
+        override val enumValues: List<Enum.Value>? = null
+
+        override val inputFields: List<InputField>? = null
     }
 
     @Serializable
@@ -49,12 +81,16 @@ sealed class Type {
     data class Interface(
         override val name: String,
         override val description: String? = null,
-        @SerialName(value = "fields") val fields: List<Field>? = null,
-        @SerialName(value = "possibleTypes") val possibleTypes: List<TypeRef>? = null,
-        @SerialName(value = "interfaces") val interfaces: List<TypeRef> = emptyList()
+        override val possibleTypes: List<TypeRef>? = null,
+        override val interfaces: List<TypeRef> = emptyList(),
+        override val fields: List<Field>? = null
     ) : Type() {
 
         override val kind: Kind = Kind.INTERFACE
+
+        override val enumValues: List<Enum.Value>? = null
+
+        override val inputFields: List<InputField>? = null
     }
 
     @Serializable
@@ -62,11 +98,17 @@ sealed class Type {
     data class Union(
         override val name: String,
         override val description: String? = null,
-        @SerialName(value = "fields") val fields: List<Field>? = null,
-        @SerialName(value = "possibleTypes") val possibleTypes: List<TypeRef>? = null
+        override val possibleTypes: List<TypeRef>? = null,
+        override val fields: List<Field>? = null
     ) : Type() {
 
         override val kind: Kind = Kind.UNION
+
+        override val enumValues: List<Enum.Value>? = null
+
+        override val inputFields: List<InputField>? = null
+
+        override val interfaces: List<TypeRef>? = null
     }
 
     @Serializable
@@ -74,10 +116,18 @@ sealed class Type {
     data class Enum(
         override val name: String,
         override val description: String? = null,
-        @SerialName(value = "enumValues") val enumValues: List<Value> = emptyList()
+        override val enumValues: List<Value> = emptyList()
     ) : Type() {
 
         override val kind: Kind = Kind.ENUM
+
+        override val possibleTypes: List<TypeRef>? = null
+
+        override val inputFields: List<InputField>? = null
+
+        override val interfaces: List<TypeRef>? = null
+
+        override val fields: List<Field>? = null
 
         @Serializable
         data class Value(
@@ -93,9 +143,17 @@ sealed class Type {
     data class InputObject(
         override val name: String,
         override val description: String? = null,
-        @SerialName(value = "inputFields") val inputFields: List<InputField> = emptyList()
+        override val inputFields: List<InputField> = emptyList()
     ) : Type() {
 
         override val kind: Kind = Kind.INPUT_OBJECT
+
+        override val possibleTypes: List<TypeRef>? = null
+
+        override val enumValues: List<Enum.Value>? = null
+
+        override val interfaces: List<TypeRef>? = null
+
+        override val fields: List<Field>? = null
     }
 }

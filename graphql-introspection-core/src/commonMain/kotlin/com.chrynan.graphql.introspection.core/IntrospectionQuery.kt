@@ -81,9 +81,8 @@ object IntrospectionQuery {
                     |   name
                     """.trimMargin()
             )
+            append("\n")
         }
-
-        append("\n")
 
         for (i in 0 until nestedLevelCount) {
             append("}\n")

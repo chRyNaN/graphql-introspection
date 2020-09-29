@@ -2,14 +2,14 @@
 
 package com.chrynan.graphql.introspection.input.jvm
 
-import com.chrynan.graphql.introspection.core.IntrospectionQuery
-import com.chrynan.graphql.introspection.core.IntrospectionSchema
-import com.chrynan.graphql.introspection.core.IntrospectionSchemaData
+import com.chrynan.graphql.introspection.core.*
 import graphql.GraphQL
 import graphql.schema.idl.RuntimeWiring
 import graphql.schema.idl.SchemaGenerator
 import graphql.schema.idl.SchemaParser
 import graphql.schema.idl.TypeDefinitionRegistry
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonObjectBuilder
 import java.io.File
 
 class GraphQLSchemaSdlInputParser {
@@ -28,10 +28,12 @@ class GraphQLSchemaSdlInputParser {
         val graphql = GraphQL.newGraphQL(schema).build()
         val executionResult = graphql.execute(IntrospectionQuery.getIntrospectionQueryString())
 
-        val data = executionResult.toSpecification()["data"] ?: throw InvalidGraphQLSchemaFormat()
+        println(executionResult.toSpecification().toJson())
+
+        val jsonElement = executionResult.toSpecification().toJson()
 
         return try {
-            IntrospectionSchemaData.fromJsonString(data.toString()).introspectionSchema
+            SuccessfulIntrospectionSchemaResponse.fromJsonString(jsonElement.toString()).data.introspectionSchema
         } catch (e: Exception) {
             throw InvalidGraphQLSchemaFormat(
                 message = "Encountered exception while parsing the IntrospectionSchemaData class.",
