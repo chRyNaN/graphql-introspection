@@ -31,9 +31,9 @@ data class IntrospectionSchemaData(
         fun fromJsonString(
             input: String,
             json: Json = Json {
-                classDiscriminator = Type.TYPE_FIELD_NAME
                 isLenient = true
                 encodeDefaults = true
+                ignoreUnknownKeys = true
             }
         ): IntrospectionSchemaData = json.decodeFromString(serializer(), input)
     }
@@ -48,9 +48,9 @@ data class IntrospectionSchemaData(
      */
     fun toJsonString(
         json: Json = Json {
-            classDiscriminator = Type.TYPE_FIELD_NAME
             isLenient = true
             encodeDefaults = true
+            ignoreUnknownKeys = true
         }
     ): String = json.encodeToString(serializer(), this)
 }

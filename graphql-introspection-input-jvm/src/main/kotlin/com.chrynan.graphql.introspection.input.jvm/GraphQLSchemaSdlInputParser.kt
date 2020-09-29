@@ -8,8 +8,6 @@ import graphql.schema.idl.RuntimeWiring
 import graphql.schema.idl.SchemaGenerator
 import graphql.schema.idl.SchemaParser
 import graphql.schema.idl.TypeDefinitionRegistry
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonObjectBuilder
 import java.io.File
 
 class GraphQLSchemaSdlInputParser {
@@ -27,8 +25,6 @@ class GraphQLSchemaSdlInputParser {
         val schema = SchemaGenerator().makeExecutableSchema(typeRegistry, mockRuntimeWiring)
         val graphql = GraphQL.newGraphQL(schema).build()
         val executionResult = graphql.execute(IntrospectionQuery.getIntrospectionQueryString())
-
-        println(executionResult.toSpecification().toJson())
 
         val jsonElement = executionResult.toSpecification().toJson()
 
