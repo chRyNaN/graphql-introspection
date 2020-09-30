@@ -3,6 +3,8 @@
 package com.chrynan.graphql.introspection.core
 
 import kotlinx.serialization.*
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -66,8 +68,8 @@ object TypeJsonSerializer : KSerializer<Type> {
     private fun getObject(json: Json, jsonObject: JsonObject): Type.Object {
         val name = jsonObject.getValue("name").jsonPrimitive.content
         val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
-        val interfaces = jsonObject.getValue("interfaces").decodeNullableList(json, TypeRef.serializer())
-        val fields = jsonObject.getValue("fields").decodeNullableList(json, Field.serializer())
+        val interfaces = jsonObject["interfaces"].decodeNullableList(json, TypeRef.serializer())
+        val fields = jsonObject["fields"].decodeNullableList(json, Field.serializer())
 
         return Type.Object(
             name = name,
@@ -80,7 +82,7 @@ object TypeJsonSerializer : KSerializer<Type> {
     private fun getInputObject(json: Json, jsonObject: JsonObject): Type.InputObject {
         val name = jsonObject.getValue("name").jsonPrimitive.content
         val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
-        val inputFields = jsonObject.getValue("inputFields").decodeNullableList(json, InputField.serializer())
+        val inputFields = jsonObject["inputFields"].decodeNullableList(json, InputField.serializer())
 
         return Type.InputObject(
             name = name,
@@ -92,9 +94,9 @@ object TypeJsonSerializer : KSerializer<Type> {
     private fun getInterface(json: Json, jsonObject: JsonObject): Type.Interface {
         val name = jsonObject.getValue("name").jsonPrimitive.content
         val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
-        val possibleTypes = jsonObject.getValue("possibleTypes").decodeNullableList(json, TypeRef.serializer())
-        val interfaces = jsonObject.getValue("interfaces").decodeNullableList(json, TypeRef.serializer())
-        val fields = jsonObject.getValue("fields").decodeNullableList(json, Field.serializer())
+        val possibleTypes = jsonObject["possibleTypes"].decodeNullableList(json, TypeRef.serializer())
+        val interfaces = jsonObject["interfaces"].decodeNullableList(json, TypeRef.serializer())
+        val fields = jsonObject["fields"].decodeNullableList(json, Field.serializer())
 
         return Type.Interface(
             name = name,
@@ -108,7 +110,7 @@ object TypeJsonSerializer : KSerializer<Type> {
     private fun getEnum(json: Json, jsonObject: JsonObject): Type.Enum {
         val name = jsonObject.getValue("name").jsonPrimitive.content
         val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
-        val enumValues = jsonObject.getValue("enumValues").decodeNullableList(json, Type.Enum.Value.serializer())
+        val enumValues = jsonObject["enumValues"].decodeNullableList(json, Type.Enum.Value.serializer())
 
         return Type.Enum(
             name = name,
@@ -120,8 +122,8 @@ object TypeJsonSerializer : KSerializer<Type> {
     private fun getUnion(json: Json, jsonObject: JsonObject): Type.Union {
         val name = jsonObject.getValue("name").jsonPrimitive.content
         val description = jsonObject["description"]?.jsonPrimitive?.contentOrNull
-        val possibleTypes = jsonObject.getValue("possibleTypes").decodeNullableList(json, TypeRef.serializer())
-        val fields = jsonObject.getValue("fields").decodeNullableList(json, Field.serializer())
+        val possibleTypes = jsonObject["possibleTypes"].decodeNullableList(json, TypeRef.serializer())
+        val fields = jsonObject["fields"].decodeNullableList(json, Field.serializer())
 
         return Type.Union(
             name = name,
@@ -129,5 +131,14 @@ object TypeJsonSerializer : KSerializer<Type> {
             possibleTypes = possibleTypes,
             fields = fields
         )
+    }
+
+    private fun <T> JsonElement?.decodeNullableList(json: Json, listItemSerializer: KSerializer<T>): List<T> {
+        if (this == null) return emptyList()
+        if (this is JsonNull) return emptyList()
+
+        val list = json.decodeFromJsonElement(ListSerializer(listItemSerializer).nullable, jsonArray)
+
+        return list ?: emptyList()
     }
 }

@@ -99,11 +99,3 @@ private fun JsonArrayBuilder.addJsonArray(items: Collection<*>) {
         }
     }
 }
-
-fun <T> JsonElement.decodeNullableList(json: Json, listItemSerializer: KSerializer<T>): List<T> {
-    if (this is JsonNull) return emptyList()
-
-    val list = json.decodeFromJsonElement(ListSerializer(listItemSerializer).nullable, jsonArray)
-
-    return list ?: emptyList()
-}
