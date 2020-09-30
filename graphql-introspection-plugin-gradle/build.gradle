@@ -9,9 +9,6 @@ version LibraryConstants.versionName
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
-    // JSON - Kotlinx Serialization
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
-
     compileOnly(gradleApi())
 
     implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"

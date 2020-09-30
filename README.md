@@ -5,8 +5,6 @@ With a GraphQL API, it's common to have a `schema.json` file, which is a JSON re
 
 Sometimes we need to access this `schema.json` file for processing or our own code generators. This library provides a Kotlin type representation of the `schema.json` file which can easily be obtained from the JSON String using the [kotlinx serialization library](https://github.com/Kotlin/kotlinx.serialization).
 
-**Note:** This library requires an explicit dependency on the [kotlinx serialization library](https://github.com/Kotlin/kotlinx.serialization).
-
 ### Obtaining an `IntrospectionSchema` object from a JSON String
 ```kotlin
 val schema = IntrospectionSchema.fromJsonString(jsonString)

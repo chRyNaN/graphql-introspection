@@ -16,9 +16,6 @@ kotlin {
                 implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
 
                 implementation project(":graphql-introspection-core")
-
-                // JSON - Kotlinx Serialization
-                implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
             }
         }
     }
