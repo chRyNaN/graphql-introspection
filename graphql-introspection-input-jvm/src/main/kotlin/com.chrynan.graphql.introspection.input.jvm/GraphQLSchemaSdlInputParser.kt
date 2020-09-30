@@ -34,14 +34,24 @@ class GraphQLSchemaSdlInputParser {
 
         println("Full: $jsonString\n")
 
-        println("\n\n Substring: start = 2223: ${jsonString.substring(2223)}")
-
         return try {
-            SuccessfulIntrospectionSchemaResponse.fromJsonString(jsonString).data.introspectionSchema
+            val schemaResult = SuccessfulIntrospectionSchemaResponse.fromJsonString(jsonString).data.introspectionSchema
+
+            println("SchemaResult = $schemaResult")
+
+            val schemaResultString = schemaResult.toJsonString()
+
+            println("\nSchemaResultString\n = $schemaResultString")
+
+            IntrospectionSchema.fromJsonString(schemaResultString)
+
+            println("After re-parse")
+
+            schemaResult
         } catch (e: Exception) {
             throw e
             //throw InvalidGraphQLSchemaFormat(
-             //   message = "Encountered exception while parsing the IntrospectionSchemaData class.",
+            //   message = "Encountered exception while parsing the IntrospectionSchemaData class.",
             //    exception = e
             //)
         }

@@ -26,6 +26,7 @@ internal fun <T : DefaultValue?> getDefaultValueSerializer(value: T, typeRef: Ty
             )
         ).nullable
         value is JsonElement -> JsonElement.serializer().nullable
+        value == null -> JsonElement.serializer().nullable
         else -> throw SerializationException("Could not obtain Serializer for unexpected default value type of $value")
     } as KSerializer<T>
 

@@ -5,7 +5,7 @@ package com.chrynan.graphql.introspection.core
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable(with = TypeRefJsonSerializer::class)
 data class TypeRef(
     @SerialName(value = "kind") val kind: Kind,
     @SerialName(value = "name") val name: String? = "",

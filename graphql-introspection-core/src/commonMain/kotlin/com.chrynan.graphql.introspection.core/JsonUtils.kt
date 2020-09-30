@@ -24,7 +24,7 @@ fun Map<*, *>.toJson(): JsonObject =
         }
     }
 
-internal fun JsonObjectBuilder.putJsonObject(wrapperKey: String, map: Map<*, *>) {
+private fun JsonObjectBuilder.putJsonObject(wrapperKey: String, map: Map<*, *>) {
     putJsonObject(wrapperKey) {
         map.entries.forEach { (key, value) ->
             if (key != null) {
@@ -44,7 +44,7 @@ internal fun JsonObjectBuilder.putJsonObject(wrapperKey: String, map: Map<*, *>)
     }
 }
 
-internal fun JsonArrayBuilder.addJsonObject(map: Map<*, *>) {
+private fun JsonArrayBuilder.addJsonObject(map: Map<*, *>) {
     addJsonObject {
         map.entries.forEach { (key, value) ->
             if (key != null) {
@@ -64,7 +64,7 @@ internal fun JsonArrayBuilder.addJsonObject(map: Map<*, *>) {
     }
 }
 
-internal fun JsonObjectBuilder.putJsonArray(key: String, items: Collection<*>) {
+private fun JsonObjectBuilder.putJsonArray(key: String, items: Collection<*>) {
     putJsonArray(key) {
         items.forEach {
             when (it) {
@@ -82,7 +82,7 @@ internal fun JsonObjectBuilder.putJsonArray(key: String, items: Collection<*>) {
     }
 }
 
-internal fun JsonArrayBuilder.addJsonArray(items: Collection<*>) {
+private fun JsonArrayBuilder.addJsonArray(items: Collection<*>) {
     addJsonArray {
         items.forEach {
             when (it) {
