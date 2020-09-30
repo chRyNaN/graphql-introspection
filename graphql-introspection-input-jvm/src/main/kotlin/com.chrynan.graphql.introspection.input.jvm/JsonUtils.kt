@@ -1,11 +1,8 @@
-package com.chrynan.graphql.introspection.core
+package com.chrynan.graphql.introspection.input.jvm
 
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.json.*
 
-fun Map<*, *>.toJson(): JsonObject =
+internal fun Map<*, *>.toJson(): JsonObject =
     buildJsonObject {
         entries.forEach { (key, value) ->
             if (key != null) {

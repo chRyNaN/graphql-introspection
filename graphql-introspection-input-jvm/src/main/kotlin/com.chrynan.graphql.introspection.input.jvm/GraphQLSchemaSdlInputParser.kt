@@ -28,32 +28,13 @@ class GraphQLSchemaSdlInputParser {
 
         val jsonElement = executionResult.toSpecification().toJson()
 
-        var jsonString = jsonElement.toString()
-
-        jsonString = if (jsonString.startsWith("/uFEFF")) jsonString.substring(1) else jsonString
-
-        println("Full: $jsonString\n")
-
         return try {
-            val schemaResult = SuccessfulIntrospectionSchemaResponse.fromJsonString(jsonString).data.introspectionSchema
-
-            println("SchemaResult = $schemaResult")
-
-            val schemaResultString = schemaResult.toJsonString()
-
-            println("\nSchemaResultString\n = $schemaResultString")
-
-            IntrospectionSchema.fromJsonString(schemaResultString)
-
-            println("After re-parse")
-
-            schemaResult
+            SuccessfulIntrospectionSchemaResponse.fromJsonString(jsonElement.toString()).data.introspectionSchema
         } catch (e: Exception) {
-            throw e
-            //throw InvalidGraphQLSchemaFormat(
-            //   message = "Encountered exception while parsing the IntrospectionSchemaData class.",
-            //    exception = e
-            //)
+            throw InvalidGraphQLSchemaFormat(
+                message = "Encountered exception while parsing the IntrospectionSchemaData class.",
+                exception = e
+            )
         }
     }
 }
