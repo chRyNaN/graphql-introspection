@@ -26,7 +26,7 @@ class MyTypeProcessor : IntrospectionSchemaTypeProcessor<Unit> {
     fun process(type: Type, typeMap: Map<String, Type>): Unit { ... }
 }
 
-val processor = BaseIntrospectionSchemaProcessor(listOf(MyTypeProcessor()))
+val processor = TypeProcessor(MyTypeProcessor())
 
 processor.process(schema)
 ```

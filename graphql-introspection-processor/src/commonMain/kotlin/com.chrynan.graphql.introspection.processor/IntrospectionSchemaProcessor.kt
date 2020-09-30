@@ -11,6 +11,11 @@ import com.chrynan.graphql.introspection.core.IntrospectionSchema
 interface IntrospectionSchemaProcessor<R> {
 
     /**
+     * The unique name identifier for this [IntrospectionSchemaProcessor].
+     */
+    val id: String
+
+    /**
      * Processes the provided [schema]. Depending on the implementation, this can invoke different actions including
      * generating code. Returns the result [R] of the processing.
      */

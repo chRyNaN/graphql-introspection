@@ -19,6 +19,11 @@ kotlin {
                 implementation project(":graphql-introspection-core")
             }
         }
+        jvmMain {
+            dependencies {
+                implementation project(":graphql-introspection-input-jvm")
+            }
+        }
     }
 }
 

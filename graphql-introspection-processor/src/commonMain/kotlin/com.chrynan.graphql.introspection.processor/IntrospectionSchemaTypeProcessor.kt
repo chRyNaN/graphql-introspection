@@ -12,6 +12,11 @@ import com.chrynan.graphql.introspection.core.Type
 interface IntrospectionSchemaTypeProcessor<R> {
 
     /**
+     * The unique name identifier for this [IntrospectionSchemaProcessor].
+     */
+    val id: String
+
+    /**
      * Processes the provided [type] using the provided [typeMap] which represents all of the available types for a
      * schema.
      */
