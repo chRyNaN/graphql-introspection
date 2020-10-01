@@ -16,12 +16,12 @@ kotlin {
             dependencies {
                 implementation "org.jetbrains.kotlin:kotlin-stdlib-common"
 
-                implementation project(":graphql-introspection-core")
+                api project(":graphql-introspection-core")
             }
         }
         jvmMain {
             dependencies {
-                implementation project(":graphql-introspection-input-jvm")
+                api project(":graphql-introspection-input-jvm")
             }
         }
     }
